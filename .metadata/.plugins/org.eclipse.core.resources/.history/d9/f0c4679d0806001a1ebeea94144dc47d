@@ -1,0 +1,20 @@
+package ClientServer;
+
+import java.util.List;
+import java.util.concurrent.Callable;
+
+public class ThreadCallable implements Callable<Integer> {
+    
+    private int s;
+    private int num;
+ 
+    public ThreadCallable(int a,int num1) {
+        this.s = a;
+        this.num = num1;
+    }
+    
+    public Integer call() throws Exception {
+    	this.s = this.s+num;
+    	return this.s;
+    }
+}

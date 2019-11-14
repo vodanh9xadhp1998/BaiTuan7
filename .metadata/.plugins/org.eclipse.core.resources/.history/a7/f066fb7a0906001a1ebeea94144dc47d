@@ -1,0 +1,21 @@
+package ClientServer;
+ 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+ 
+public class Server {
+ 
+    public static void main(String[] args) {
+        // Create thread pool using Executor Framework
+        ExecutorService executor = Executors.newFixedThreadPool(10);
+ 
+        for (int i = 0; i < 10; i++) {
+            // Create new Calculator object
+            ThreadCallable c = new ThreadCallable(i, i + 1);
+ 
+            executor.submit(c);
+        }
+ 
+        executor.shutdown();
+    }
+}

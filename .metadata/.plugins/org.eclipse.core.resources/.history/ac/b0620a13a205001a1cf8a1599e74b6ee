@@ -1,0 +1,53 @@
+package ClientServer;
+ 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+import java.net.Socket;
+import java.util.ArrayList;
+ 
+public class Client {
+    public final static String SERVER_IP = "localhost";
+    public final static int SERVER_PORT = 9999;
+ 
+    public static void main(String[] args) throws IOException, InterruptedException, ClassNotFoundException {
+    	ArrayList<Integer> ds = new ArrayList<Integer>();
+    	ds = null;
+    	if(args == null)
+    	{
+    		System.out.println("Chưa có dữ liệu.>>!");
+    	}
+    	else
+    	{
+    		for(String i: args)
+    		{
+    			int n = Integer.parseInt(i);
+    			ds.add(n);
+    		}
+    	}
+        Socket socket = null;
+        try {
+            socket = new Socket(SERVER_IP, SERVER_PORT); // Connect to server
+            System.out.println("Connected: " + socket);
+            
+            ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
+            ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+            InputStream is = socket.getInputStream();
+            oos.writeObject(ds);
+            ArrayList<Integer> dskq = (ArrayList<Integer>) ois.readObject();
+            int kq = is.read();
+            System.out.println("Danh sách sắp xếp: ");
+            for(int i: dskq)
+            	System.out.print(i+" ");
+            System.out.print("\nTong la: "+kq);
+        } catch (IOException ie) {
+            System.out.println("Can't connect to server");
+        } finally {
+            if (socket != null) {
+                socket.close();
+            }
+        }
+    }
+}
